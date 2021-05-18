@@ -1,11 +1,17 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/movies">Movies</router-link>
-  </div>
+  <Layout></Layout>
   <router-view />
 </template>
+
+<script>
+import Layout from '@/components/Layout.vue'
+
+export default {
+  components: {
+    Layout
+  }
+}
+</script>
 
 <style>
 #app {
@@ -13,19 +19,21 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  /*color: #2c3e50;*/
 }
 
 #nav {
   padding: 30px;
+  color: white;
 }
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: white;
 }
 
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
 </style>
