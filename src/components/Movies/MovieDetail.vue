@@ -25,7 +25,13 @@
             <span>&nbsp;</span>
             <router-link class="btn btn-success" :to="'/movie-edit/' + currentMovie.id">Edit</router-link>
             <span>&nbsp;</span>            
-            <button type="button" class="btn btn-danger" @click="deleteClicked()">Delete</button>
+            <!--<button type="button" class="btn btn-danger" @click="deleteClicked">Delete</button>-->
+        </div>
+        <div class="locations">
+            <h2>Filming locations</h2>
+            <div class="cell">
+                <MapContainer :geojson="geojson" v-on:select="selected = $event"></MapContainer>
+            </div>
         </div>
     </div>
 </template>
@@ -36,26 +42,68 @@ import MoviesDataService from "@/services/MoviesDataService";
 import Movie from "@/models/Movie";
 import ResponseData from "@/models/ResponseData";
 import moment from "moment";
+import MapContainer from "@/components/OpenLayers/MapContainer.vue";
 
 export default defineComponent({
     name: "movie-detail",
     data() {
         return {
-            currentMovie: {} as Movie
+            currentMovie: {} as Movie,
+            geojson: {
+                type: 'Feature',
+                properties: {
+                name: 'default object',
+                quality: 'top'
+                },
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: [
+                        [
+                            [
+                                -27.0703125,
+                                43.58039085560784
+                            ],
+                            [
+                                -28.125,
+                                23.563987128451217
+                            ],
+                            [
+                                -10.8984375,
+                                32.84267363195431
+                            ],
+                            [
+                                -27.0703125,
+                                43.58039085560784
+                            ]
+                        ]
+                    ]
+                }
+            }
         }
+    },
+    components: {
+        MapContainer
     },
     methods: {
         moment,
         getMovie(id: any) {
             MoviesDataService.getById(id).then(
-                (result: ResponseData) => {
-                    console.log(result.data);
+                (result: ResponseData) => {                    
                     this.currentMovie = result.data;
                 }
             )
             .catch((e: Error) => {
                 console.log(e);
             });
+        },
+
+        deleteClicked() {            
+            MoviesDataService.delete(this.currentMovie.id).then(
+                (result: ResponseData) => {
+                    console.log(result.data);
+                    this.$router.push({name: "movies"})
+                }
+            )
         }
     },
     mounted() {
@@ -74,33 +122,33 @@ export default defineComponent({
 }
 
 .movie-list-item-details-container {
-  padding: 30px;
-  max-width: 740px;
-  margin: 0 auto;
+    padding: 30px;
+    max-width: 740px;
+    margin: 0 auto;
+
+    h1 {
+        margin-bottom: 30px;
+        margin: 0;
+        padding: 0;
+        font-size: 44px;
+        border-bottom: 1px solid;
+        padding-bottom: 8px;
+    }
 }
 
-.movie-list-item-details-container h1 {
-  margin-bottom: 30px;
-  margin: 0;
-  padding: 0;
-  font-size: 44px;
-  border-bottom: 1px solid;
-  padding-bottom: 8px;
-}
+.movie-list-item-bio {    
+    display: flex;
+    margin-top: 30px;
+    overflow: hidden;
+    width: 740px;
 
-.movie-list-item-bio {
-  display: flex;
-  margin-top: 30px;
-  overflow: hidden;
-  width: 740px;
-}
-
-.movie-list-item-bio img {
-  width: 300px;
-  height: 450px;
-  border: 7px solid gray;
-  cursor: pointer;
-  float: left;
+    img {
+        width: 300px;
+        height: 450px;
+        border: 7px solid gray;
+        cursor: pointer;
+        float: left;
+    }
 }
 
 .details {
@@ -124,33 +172,42 @@ export default defineComponent({
   font-size: 15px;
 }
 
-.rating {
-  margin-bottom: 10px;
-  display: inline-block;
-  float: right;
-  line-height: 25px;
-  font-size: 25px;
-}
-
 .details p {
   line-height: 27px;
 }
+
 .navigation {
   margin-top: 10px;
 }
-.go-back-button {
-  border: 1px solid;
-  float: left;
-  margin-right: 12px;
-  border-radius: 6px;
-  display: block;
-  width: 70px;
-  height: 31.69px;
-  line-height: 34.69px;
-  text-align: center;
-  cursor: pointer;
+
+.locations {
+    margin-top: 15px;
+
+    h2 {
+        color: yellow;
+        margin-bottom: 30px;
+        margin: 0;
+        padding: 0;
+        font-size: 44px;
+        border-bottom: 1px solid;
+        padding-bottom: 8px;
+    }    
+
+    
+
+    .cell-map {
+        grid-column: 1;
+        grid-row-start: 1 ;
+        grid-row-end: 3 ;
+    }
 }
-.go-back-button:hover {
-  text-decoration: underline;
-}
+
+.cell{
+        margin-top: 20px;
+        border-radius: 5px;
+        background-color: lightgray;        
+    }
+
+
+    
 </style>
