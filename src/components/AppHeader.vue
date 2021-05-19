@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-md navbar-dark bg-secondary">
       <div class="container">
         <div class="navbar-brand logo">
-          <img src="../assets/images/Logo.jpg" height="50"/>
+          <img src="@/assets/images/Logo.jpg" height="50"/>
         </div>
         <div class="navbar-nav">
           <ul class="navbar-nav mr-auto">            

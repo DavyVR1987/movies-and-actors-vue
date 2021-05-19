@@ -5,14 +5,19 @@ import Movies from "../views/Movies.vue";
 const routes: Array<RouteRecordRaw> = [ 
   {
     path: "/",
-    name: "Movies",
-    component: Movies,
+    alias: "/movies",
+    name: "movies",
+    component: () => import("../components/Movies/MovieList.vue"),
+  },
+  {
+    path: "/movie-detail/:id",
+    name: "movie-details",
+    component: () => import("../components/Movies/MovieDetail.vue"),
   },
   {
     path: "/actors",
-    name: "Actors",
-    component: () => 
-      import("../views/Actors.vue"),
+    name: "actors",
+    component: () => import("../views/Actors.vue"),
   }
 ];
 

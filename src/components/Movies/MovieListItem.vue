@@ -1,23 +1,29 @@
 <template>
-    <li class="movie-list-item">
-        <img v-bind:src="'../../assets/images/' + movie.name + '.jpg'"  width="200px" />
-        <span class="movie-list-item-title">{{movie.name}}</span>
-        <span class="movie-list-item-release-year">{{movie.year}}</span>
-        <span class="movie-list-item-genre">{{genre}}</span>
-        <!--<button class="btn btn-info" [routerLink]="['/movie-detail/', movie.id]">Details</button>-->
-    </li>
+  <li class="movie-list-item">
+    <img :src="require('@/assets/images/' + movie.name + '.jpg')"  width="200px" />
+    <span class="movie-list-item-title">{{ movie.name }}</span>
+    <span class="movie-list-item-release-year">{{moment(movie.year).format("DD/MM/yyyy")}}</span>
+    <span class="movie-list-item-genre">{{movie.genre}}</span>    
+    <router-link class="btn btn-info" :to="'/movie-detail/' + movie.id">Details</router-link>
+  </li>
 </template>
 
 <script lang="ts">
-import Movie from "@/models/Movie";
-import { Options, Vue } from "vue-class-component";
+import moment from "moment";
+import { MovieGenre } from "@/models/MovieGenreEnum";
 
-@Options({
-  props: ['movie']
-})
-export default class MovieListItem extends Vue {
-  movie!: Movie;
-}
+export default {
+  name: "movie-list-item",
+  props: ["movie"],
+  methods: {
+    moment,    
+  },  
+  computed: {
+    convertGenre(movieGenre: number) {
+      return MovieGenre[movieGenre]
+    }
+  }
+};
 </script>
 
 <style lang="scss">
@@ -26,10 +32,9 @@ li {
   height: auto;
   overflow: hidden;
   list-style: none;
-  color: #E9EAEB;
   float: left;
   position: relative;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   margin-bottom: 15px;
 
   img {
@@ -45,7 +50,7 @@ li {
     line-height: 48px;
     font-size: 20px;
     text-align: center;
-    background-color: #F48F26;
+    background-color: #f48f26;
     display: inline-block;
     position: absolute;
     bottom: 97px;
