@@ -6,6 +6,7 @@
 import AppHeader from '@/components/AppHeader.vue'
 
 export default {
+  name: 'layout',
   components: {
     AppHeader
   }
@@ -24,11 +25,7 @@ export default {
     background-position: right 0 top 0;
     }
 
-    h1, h4{
+    h1, h4, li, label{
       color: #e9eaeb;
-    }
-
-    li {
-      color: #e9eaeb;
-    }
+    }    
 </style>

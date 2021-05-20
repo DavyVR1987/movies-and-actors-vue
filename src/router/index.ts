@@ -5,12 +5,22 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     alias: "/movies",
     name: "movies",
-    component: () => import("../components/Movies/MovieList.vue"),
+    component: () => import("../views/Movies.vue"),
   },
   {
     path: "/movie-detail/:id",
     name: "movie-details",
-    component: () => import("../components/Movies/MovieDetail.vue"),
+    component: () => import("../views/MovieDetails.vue"),
+  },
+  {
+    path: "/edit-movie/:id",
+    name: "edit-movie",
+    component: () => import("../views/MovieForm.vue")
+  },
+  {
+    path: "/add-movie/",
+    name: "add-movie",
+    component: () => import("../views/MovieForm.vue")
   },
   {
     path: "/actors",

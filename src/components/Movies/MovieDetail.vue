@@ -23,14 +23,14 @@
         <div class="navigation">
             <router-link class="btn btn-light" :to="'/movies'">Back</router-link>
             <span>&nbsp;</span>
-            <router-link class="btn btn-success" :to="'/movie-edit/' + currentMovie.id">Edit</router-link>
+            <router-link class="btn btn-success" :to="'/edit-movie/' + currentMovie.id">Edit</router-link>
             <span>&nbsp;</span>            
             <!--<button type="button" class="btn btn-danger" @click="deleteClicked">Delete</button>-->
         </div>
         <div class="locations">
             <h2>Filming locations</h2>
             <div class="cell">
-                <MapContainer :geojson="geojson" v-on:select="selected = $event"></MapContainer>
+                <MapContainer></MapContainer>
             </div>
         </div>
     </div>
@@ -48,37 +48,7 @@ export default defineComponent({
     name: "movie-detail",
     data() {
         return {
-            currentMovie: {} as Movie,
-            geojson: {
-                type: 'Feature',
-                properties: {
-                name: 'default object',
-                quality: 'top'
-                },
-                geometry: {
-                    type: 'Polygon',
-                    coordinates: [
-                        [
-                            [
-                                -27.0703125,
-                                43.58039085560784
-                            ],
-                            [
-                                -28.125,
-                                23.563987128451217
-                            ],
-                            [
-                                -10.8984375,
-                                32.84267363195431
-                            ],
-                            [
-                                -27.0703125,
-                                43.58039085560784
-                            ]
-                        ]
-                    ]
-                }
-            }
+            currentMovie: {} as Movie
         }
     },
     components: {
@@ -104,6 +74,9 @@ export default defineComponent({
                     this.$router.push({name: "movies"})
                 }
             )
+            .catch((e: Error) => {
+                console.log(e);
+            });
         }
     },
     mounted() {
