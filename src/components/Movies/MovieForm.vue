@@ -1,32 +1,38 @@
 <template>
-    <div class="container">
-        <h1>Add or edit a movie</h1>
-        <form>
-            <input type="hidden" v-model="movie.id" name="id" />
-            <div class="form-group row col-sm-5">
-                <label for="name">Movie name</label>
+    <h1>Add or edit a movie</h1>
+    <form>
+        <input type="hidden" v-model="movie.id" name="id" />
+        <div class="row mb-3">
+            <div class="col-sm-5">
+                <label class="form-label" for="name">Movie name</label>
                 <input type="text" class="form-control" v-model="movie.name" id="name" name="name" />
             </div>
-            <div class="form-group row col-sm-5">
-                <label for="name">Year</label>
-                <input type="text" class="form-control" v-model="movie.year" id="year" name="year" required />
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-5">
+                <label class="form-label" for="name">Year</label>
+                <input type="text" class="form-control" v-model="movieYear" id="year" name="year" required />
             </div>
-            <div class="form-group row col-sm-5">
-                <label for="name">Genre</label>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-5">
+                <label class="form-label" for="name">Genre</label>
                 <input type="text" class="form-control" v-model="movie.genre" id="genre" name="genre" required />
             </div>
-            <div class="form-group col-sm-5">
-                <label v-for="actor in movie.actors" :key="actor.id">
-                    <input type="checkbox" name="actor" v-model="actor.id" id="actor" /> {{actor.firstName}} {{actor.lastName}}
-                </label>                
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-5">
+                <div class="form-check" v-for="actor in movie.actors" :key="actor.id">
+                    <input class="form-check-input" type="checkbox" v-model="actor.id" id="actor" />
+                    <label class="form-check-label" for="actor">{{actor.firstName}} {{actor.lastName}}</label> 
+                </div>                                
             </div>
-            <div class="form-group col-sm-5">                
-                <button class="btn btn-light" @click="backClicked">Back</button>
-                <button class="btn btn-success" v-if="movie.id" @click="editMovie">Save</button>
-                <button class="btn btn-success" v-else @click="addMovie">Save</button>
-            </div>
-        </form>        
-    </div>
+        </div>
+        <button class="btn btn-light" @click="backClicked">Back</button>
+        <span>&nbsp;</span>
+        <button class="btn btn-success" v-if="movie.id" @click="editMovie">Save</button>
+        <button class="btn btn-success" v-else @click="addMovie">Save</button>            
+    </form>        
 </template>
 
 <script lang="ts">
@@ -34,21 +40,23 @@ import { defineComponent } from 'vue';
 import MoviesDataService from '@/services/MoviesDataService';
 import Movie from '@/models/Movie';
 import ResponseData from '@/models/ResponseData';
-import moment from "moment";
+import {format} from 'date-fns';
 
 export default defineComponent({
     name: 'movie-form',
     data() {
         return {
-            movie: {} as Movie            
+            movie: {} as Movie,
+            format,
+            movieYear: ''
         }
     },    
     methods: {
-        moment,
         getMovie(id: any) {
             MoviesDataService.getById(id).then(
                 (result: ResponseData) => {                    
                     this.movie = result.data;
+                    this.movieYear = format(new Date(this.movie.year), 'dd/MM/yyyy');
                 }
             )
             .catch((e: Error) => {
@@ -88,7 +96,7 @@ export default defineComponent({
     },
     mounted() {
         if(this.$route.params.id) {
-            this.getMovie(this.$route.params.id);            
+            this.getMovie(this.$route.params.id);
         }
     }
 })

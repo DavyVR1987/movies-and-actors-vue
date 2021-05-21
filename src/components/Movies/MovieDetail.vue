@@ -14,8 +14,7 @@
                         <router-link class="btn btn-primary" :to="'/actor-new'">Add new actor</router-link>
                     </div>
                     <ul v-for="actor of currentMovie.actors" :key="actor.id">
-                        <li>{{actor.firstName}} {{actor.lastName}}</li>
-                        <!--<app-actor-list-item [actor]="actor"></app-actor-list-item>-->
+                        <actor-list-item :actor="actor"></actor-list-item>
                     </ul>
                 </div>
             </div>
@@ -43,6 +42,7 @@ import Movie from "@/models/Movie";
 import ResponseData from "@/models/ResponseData";
 import moment from "moment";
 import MapContainer from "@/components/OpenLayers/MapContainer.vue";
+import ActorListItem from "../Actors/ActorListItem.vue";
 
 export default defineComponent({
     name: "movie-detail",
@@ -52,7 +52,8 @@ export default defineComponent({
         }
     },
     components: {
-        MapContainer
+        MapContainer,
+        ActorListItem
     },
     methods: {
         moment,

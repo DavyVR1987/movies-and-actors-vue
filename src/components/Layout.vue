@@ -18,6 +18,8 @@ export default {
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
+    background-color: #1D272F !important;
     }
 
     body {
@@ -27,5 +29,7 @@ export default {
 
     h1, h4, li, label{
       color: #e9eaeb;
-    }    
+    }
+    
+        
 </style>

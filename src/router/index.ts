@@ -5,12 +5,12 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     alias: "/movies",
     name: "movies",
-    component: () => import("../views/Movies.vue"),
+    component: () => import("../views/Movies.vue")
   },
   {
     path: "/movie-detail/:id",
     name: "movie-details",
-    component: () => import("../views/MovieDetails.vue"),
+    component: () => import("../views/MovieDetails.vue")
   },
   {
     path: "/edit-movie/:id",
@@ -21,11 +21,16 @@ const routes: Array<RouteRecordRaw> = [
     path: "/add-movie/",
     name: "add-movie",
     component: () => import("../views/MovieForm.vue")
-  },
+  },  
   {
     path: "/actors",
     name: "actors",
-    component: () => import("../views/Actors.vue"),
+    component: () => import("../views/Actors.vue")
+  },
+  {
+    path: "/actor-detail/:id",
+    name: "actor-details",
+    component: () => import("../views/ActorDetails.vue")
   }
 ];
 

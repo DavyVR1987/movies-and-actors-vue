@@ -1,5 +1,5 @@
 <template>
-  <div class="about">    
+  <div class="container">    
     <movie-form></movie-form>
   </div>
 </template>

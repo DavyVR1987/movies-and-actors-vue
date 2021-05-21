@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style lang="scss">
-li {
+.movie-list-item {
   width: 220px;
   height: auto;
   overflow: hidden;
