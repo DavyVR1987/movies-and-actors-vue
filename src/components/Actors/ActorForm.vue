@@ -54,6 +54,24 @@ export default defineComponent({
                 console.log(e);
             });
         },
+
+        editActor() {
+            // edit existing actor
+            let actorData = this.actor;
+            ActorsDataService.edit(this.actor.id, actorData).then(
+                (result: ResponseData) => {
+                    console.log(result);
+                    this.$router.push({path: '/actors'});
+                }
+            )
+            .catch((e: Error) => {
+                console.log(e);
+            });
+        },
+
+        addActor() {
+            // add new actor
+        }
     },
     mounted() {
         if(this.$route.params.id) {

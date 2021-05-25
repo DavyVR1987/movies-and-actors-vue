@@ -5,15 +5,15 @@
             <img :src="require('@/assets/images/' + currentMovie.name + '.jpg')"  width="200px" />
             <div class="details">
                 <div class="details-top">
-                    <div class="release-year">{{moment(currentMovie.year).format("DD/MM/yyyy")}}</div>
-                    <div class="genre">{{currentMovie.genre}}</div>
+                    <div class="release-year">{{format(new Date(currentMovie.year), "dd/MM/yyyy")}}</div>
+                    <div class="genre">{{convertGenre(currentMovie.genre)}}</div>
                 </div>
                 <div>
                     <div>
                         <h4>Actors</h4>&nbsp;
                         <router-link class="btn btn-primary" :to="'/actor-new'">Add new actor</router-link>
-                    </div>
-                    <ul v-for="actor of currentMovie.actors" :key="actor.id">
+                    </div>                    
+                    <ul class="actorList" v-for="actor of currentMovie.actors" :key="actor.id">
                         <actor-list-item :actor="actor"></actor-list-item>
                     </ul>
                 </div>
@@ -24,7 +24,8 @@
             <span>&nbsp;</span>
             <router-link class="btn btn-success" :to="'/edit-movie/' + currentMovie.id">Edit</router-link>
             <span>&nbsp;</span>            
-            <!--<button type="button" class="btn btn-danger" @click="deleteClicked">Delete</button>-->
+            <button type="button" class="btn btn-danger" @click="deleteClicked">Delete</button>
+            <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
         </div>
         <div class="locations">
             <h2>Filming locations</h2>
@@ -36,27 +37,37 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue';
 import MoviesDataService from "@/services/MoviesDataService";
 import Movie from "@/models/Movie";
 import ResponseData from "@/models/ResponseData";
-import moment from "moment";
 import MapContainer from "@/components/OpenLayers/MapContainer.vue";
 import ActorListItem from "../Actors/ActorListItem.vue";
+import {format} from 'date-fns';
+import { MovieGenre } from "@/models/MovieGenreEnum";
+import ConfirmDialogue from '@/components/Dialogue/ConfirmDialogue.vue'
 
 export default defineComponent({
+    setup() {
+        const confirmDialogue = ref<typeof ConfirmDialogue | null>(null);
+
+        return {
+            confirmDialogue
+        }
+    },
     name: "movie-detail",
     data() {
         return {
-            currentMovie: {} as Movie
+            currentMovie: {} as Movie,
+            format
         }
     },
     components: {
         MapContainer,
-        ActorListItem
+        ActorListItem,
+        ConfirmDialogue
     },
     methods: {
-        moment,
         getMovie(id: any) {
             MoviesDataService.getById(id).then(
                 (result: ResponseData) => {                    
@@ -68,16 +79,28 @@ export default defineComponent({
             });
         },
 
-        deleteClicked() {            
-            MoviesDataService.delete(this.currentMovie.id).then(
-                (result: ResponseData) => {
-                    console.log(result.data);
-                    this.$router.push({name: "movies"})
-                }
-            )
-            .catch((e: Error) => {
-                console.log(e);
-            });
+        async deleteClicked() { 
+            const ok = await this.confirmDialogue?.show({
+                title: 'Delete movie',
+                message: 'Are you sure you want to delete this movie?'
+            })
+            if(ok) {
+                MoviesDataService.delete(this.currentMovie.id).then(
+                    (result: ResponseData) => {
+                        console.log(result.data);
+                        this.$router.push({name: "movies"})
+                    }
+                )
+                .catch((e: Error) => {
+                    console.log(e);
+                });               
+            } else {
+                alert('No movie deleted!')
+            }
+        },
+
+        convertGenre(movieGenre: number) {
+            return MovieGenre[movieGenre]
         }
     },
     mounted() {
@@ -182,6 +205,9 @@ export default defineComponent({
         background-color: lightgray;        
     }
 
-
+.actorList {
+    padding: 0;
+    list-style-type: none;
+}
     
 </style>

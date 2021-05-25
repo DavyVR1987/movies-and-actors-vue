@@ -66,10 +66,11 @@ export default defineComponent({
 
         editMovie() {
             let movieData = this.movie;
+            console.log(movieData);
             MoviesDataService.edit(this.movie.id, movieData).then(
                 (result: ResponseData) => {
                     console.log(result);
-                    this.$router.push({path: '/movie-detail/' + this.movie.id});
+                    //this.$router.push({path: '/movie-detail/' + this.movie.id});
                 }
             )
             .catch((e: Error) => {

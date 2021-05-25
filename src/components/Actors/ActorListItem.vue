@@ -1,8 +1,12 @@
 <template>
     <li class="actor-list-item">
-        <span class="actor-list-item-name">{{actor.firstName}} {{actor.lastName}}</span>
-        <span class="actor-list-item-birthdate">{{actor.birthDate}}</span>
-        <router-link class="btn btn-success" :to="'/actor-detail/' + actor.id">Edit actor</router-link>
+        <span class="actor-list-item-name">{{actor.firstName}} {{actor.lastName}}</span>        
+    </li>
+    <li class="actor-list-item">
+      <span class="actor-list-item-birthdate">{{format(new Date(actor.birthDate), 'dd/MM/yyyy')}}</span>
+    </li>
+    <li class="actor-list-item">
+      <router-link class="btn btn-success" :to="'/actor-detail/' + actor.id">Edit actor</router-link>
     </li>
 </template>
 
@@ -23,14 +27,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.actor-list-item {
-  width: auto;
-  height: auto;
-  overflow: hidden;
-  list-style: none;
-  position: relative;
+.actor-list-item {  
   font-family: "Josefin Sans", sans-serif;
-  margin-bottom: 15px;    
+  margin-bottom: 15px;
 
   .actor-list-item-name {
     display: block;
