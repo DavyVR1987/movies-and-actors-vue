@@ -29,9 +29,12 @@
         </div>
         <div class="locations">
             <h2>Filming locations</h2>
-            <div class="cell">
-                <MapContainer></MapContainer>
+            <div id="locationContainer">
+                <div class="cell cell-map">
+                    <map-container></map-container>
+                </div>
             </div>
+            
         </div>
     </div>
 </template>
@@ -190,7 +193,22 @@ export default defineComponent({
         padding-bottom: 8px;
     }    
 
-    
+    #locationContainer {
+        font-family: Avenir, Helvetica, Arial, sans-serif;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 100vh;
+        grid-auto-rows: 1fr;
+        grid-gap: 1rem;
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    .cell{
+        margin-top: 20px;
+        border-radius: 5px;
+        background-color: lightgray;        
+    }
 
     .cell-map {
         grid-column: 1;
@@ -198,12 +216,6 @@ export default defineComponent({
         grid-row-end: 3 ;
     }
 }
-
-.cell{
-        margin-top: 20px;
-        border-radius: 5px;
-        background-color: lightgray;        
-    }
 
 .actorList {
     padding: 0;

@@ -9,6 +9,7 @@
           <ul class="navbar-nav mr-auto">            
             <li class="nav-item"><router-link to="/">Movie list</router-link></li>
             <li class="nav-item"><router-link to="/actors">Actors</router-link></li>
+            <li class="nav-item"><router-link to="/locations">Film locations</router-link></li>
           </ul>
         </div>
         <!--<div class="navbar-nav ml-auto">
