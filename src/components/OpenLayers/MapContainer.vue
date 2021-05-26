@@ -7,11 +7,24 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
+import {Circle as CircleStyle, Stroke, Style} from 'ol/style';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON';
 
 import 'ol/ol.css';
+
+const image = new CircleStyle({
+  radius: 5,
+  fill: null,
+  stroke: new Stroke({color: 'red', width: 1})
+})
+
+const styles = {
+  'Point': new Style({
+    image: image,
+  })
+}
 
 export default {
     name: 'MapContainer',

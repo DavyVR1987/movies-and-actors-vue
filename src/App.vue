@@ -1,6 +1,8 @@
 <template>
-  <layout></layout>
-  <router-view />
+  <div id="app">
+    <layout></layout>
+    <router-view />
+  </div>
 </template>
 
 <script>
@@ -18,22 +20,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /*text-align: center;*/
-  /*color: #2c3e50;*/
-}
-
-#nav {
-  padding: 30px;
-  color: white;
-}
-
-#nav a {
-  font-weight: bold;
-  color: white;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 
 </style>

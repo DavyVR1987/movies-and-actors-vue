@@ -26,16 +26,7 @@
             <span>&nbsp;</span>            
             <button type="button" class="btn btn-danger" @click="deleteClicked">Delete</button>
             <confirm-dialogue ref="confirmDialogue"></confirm-dialogue>
-        </div>
-        <div class="locations">
-            <h2>Filming locations</h2>
-            <div id="locationContainer">
-                <div class="cell cell-map">
-                    <map-container></map-container>
-                </div>
-            </div>
-            
-        </div>
+        </div>        
     </div>
 </template>
 
@@ -44,7 +35,6 @@ import { defineComponent, ref } from 'vue';
 import MoviesDataService from "@/services/MoviesDataService";
 import Movie from "@/models/Movie";
 import ResponseData from "@/models/ResponseData";
-import MapContainer from "@/components/OpenLayers/MapContainer.vue";
 import ActorListItem from "../Actors/ActorListItem.vue";
 import {format} from 'date-fns';
 import { MovieGenre } from "@/models/MovieGenreEnum";
@@ -66,7 +56,6 @@ export default defineComponent({
         }
     },
     components: {
-        MapContainer,
         ActorListItem,
         ConfirmDialogue
     },
@@ -178,43 +167,6 @@ export default defineComponent({
 
 .navigation {
   margin-top: 10px;
-}
-
-.locations {
-    margin-top: 15px;
-
-    h2 {
-        color: yellow;
-        margin-bottom: 30px;
-        margin: 0;
-        padding: 0;
-        font-size: 44px;
-        border-bottom: 1px solid;
-        padding-bottom: 8px;
-    }    
-
-    #locationContainer {
-        font-family: Avenir, Helvetica, Arial, sans-serif;
-        height: 100%;
-        display: grid;
-        grid-template-columns: 100vh;
-        grid-auto-rows: 1fr;
-        grid-gap: 1rem;
-        padding: 1rem;
-        box-sizing: border-box;
-    }
-
-    .cell{
-        margin-top: 20px;
-        border-radius: 5px;
-        background-color: lightgray;        
-    }
-
-    .cell-map {
-        grid-column: 1;
-        grid-row-start: 1 ;
-        grid-row-end: 3 ;
-    }
 }
 
 .actorList {
