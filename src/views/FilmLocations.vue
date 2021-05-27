@@ -1,5 +1,5 @@
 <template>
-  <div class="locations">
+  <div class="container locations">
       <h2>Filming locations</h2>
       <form>
         <div class="row g-2 align-items-center">
@@ -17,7 +17,7 @@
         </div>
       </form>      
       <div id="locationContainer">
-          <div class="cell cell-map">
+          <div class="mt-3 cell cell-map">
               <map-container></map-container>
           </div>
       </div>
@@ -69,8 +69,6 @@ import { defineComponent } from "vue";
 <style lang="scss">
   .locations {
     padding: 15px;
-    max-width: 740px;
-    margin: 0 auto;
 
     h2 {
         color: yellow;
@@ -82,24 +80,19 @@ import { defineComponent } from "vue";
 
     #locationContainer {
         font-family: Avenir, Helvetica, Arial, sans-serif;
-        height: 100%;
-        display: grid;
-        grid-template-columns: 100vh;
-        grid-auto-rows: 1fr;
-        grid-gap: 1rem;
+        height: 400px;
+        width: 100%;        
         box-sizing: border-box;
     }
 
-    .cell{
-        margin-top: 20px;
+    .cell{        
         border-radius: 5px;
         background-color: lightgray;        
     }
 
     .cell-map {
-        grid-column: 1;
-        grid-row-start: 1 ;
-        grid-row-end: 30 ;
+        height: 100%;
+        width: 100%;    
     }
 }
   
