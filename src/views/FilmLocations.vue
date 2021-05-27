@@ -8,7 +8,7 @@
           </div>
           <div class="col-auto">
             <select class="form-select" v-model="selectedMovie">              
-              <option v-for="movie in allMovies" :key="movie.id" :value="movie.name">
+              <option v-for="movie in allMovies" :key="movie.id" :value="movie.id">
                 {{movie.name}}
               </option>
             </select>            
@@ -36,7 +36,14 @@ import { defineComponent } from "vue";
     data() {
         return {
             allMovies: [] as Movie[],
-            selectedMovie: ''
+            selectedMovie: '',
+            geojson: {
+              type: 'Feature',
+              properties: {
+                name: 'default object',
+                quality: 'top'
+              }
+            },
         }
     },
     components: {
