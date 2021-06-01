@@ -7,89 +7,127 @@
 </template>
 
 <script>
-import Map from 'ol/Map';
-import View from 'ol/View';
-import defaults, { Attribution } from 'ol/control';
-import OSM from 'ol/source/OSM';
-import VectorSource from 'ol/source/Vector';
-import Feature from 'ol/Feature';
-import GeoJSON from 'ol/format/GeoJSON';
-import Point from 'ol/geom/Point';
-import { fromLonLat } from 'ol/proj';
-import Overlay from 'ol/Overlay';
-import {Icon, Style} from 'ol/style';
-import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+import Map from "ol/Map";
+import View from "ol/View";
+import OSM from "ol/source/OSM";
+import VectorSource from "ol/source/Vector";
+import Feature from "ol/Feature";
+import GeoJSON from "ol/format/GeoJSON";
+import Point from "ol/geom/Point";
+import { fromLonLat } from "ol/proj";
+import Overlay from "ol/Overlay";
+import {Style, Circle, Fill, Stroke} from "ol/style";
+import TileLayer from "ol/layer/Tile";
+import VectorLayer from "ol/layer/Vector";
+import Topgun from "@/shared/topgun.geojson";
 
-import 'ol/ol.css';
+
+import "ol/ol.css";
 
 export default {
-    name: 'MapContainer',
+    name: "MapContainer",
 
     components: {},
 
-    props: { 
+    /*props: { 
       geojson: Object
-    },
+    },*/
 
     data() {
       return {
         olMap: null,
+        tileLayer: null,
+        vectorSource: null,
         vectorLayer: null,
         selectedFeature: null,
         overlay: null,        
-        popup: null
+        popup: null,
+        style: null,
+        geojson: null       
       }
     },
 
-    mounted() {   
-      this.vectorLayer = new VectorLayer({
-          source: new VectorSource({            
-            features: [
-              new Feature({
-                geometry: new Point(fromLonLat([-117.382195, 33.193211])),
-              })
-            ],
+    mounted() {
+      this.geojson = Topgun;
+
+      this.tileLayer = new TileLayer({
+        source: new OSM()
+      }),
+
+      /*this.style = new Style({
+        image: new Circle({
+          radius: 5,
+          fill: new Fill({
+            color: "red",
           }),
+          stroke: new Stroke({
+            color: "black",
+            width: 3
+          })
+        })
+      }),*/
+
+      this.vectorSource = new VectorSource({
+        features: new GeoJSON().readFeatures(this.geojson)        
+      }),
+
+      this.vectorLayer = new VectorLayer({
+          source: this.vectorSource,
+            /*features: [
+              new Feature({
+                name: "Charlie"s house",
+                description: "102 Pacific Street, Oceanside, California, USA",
+                geometry: new Point(fromLonLat([-117.382195, 33.193211])),                
+              }),
+              new Feature({
+                name: "Kansas City Barbeque",
+                description: "610 W. Market Street, San Diego, California, USA",
+                geometry: new Point(fromLonLat([-117.168671, 32.711678])),
+              })
+            ],*/
       }),
 
       this.popup = new Overlay({
-        element: document.getElementById('popup'),
-        positioning: 'bottom-center',
+        element: document.getElementById("popup"),
+        positioning: "bottom-center",
         stopEvent: false,
         offset: [0, -50]
       }),
       
       this.olMap = new Map({
-        target: this.$refs['map'],
-        layers: [
-          new TileLayer({
-            source: new OSM()
-          }),
-          this.vectorLayer              
-        ],
+        target: this.$refs["map"],
+        layers: [this.tileLayer, this.vectorLayer],
         view: new View({          
-          zoom: 12,
-          maxZoom: 18,
-          center: fromLonLat([-117.382195, 33.193211]),
+          zoom: 6,          
+          center: fromLonLat([-75.289080414181669, 48.284706278302295]),
           constrainResolution: true
         }),        
         overlays: [
           this.popup
         ]
       })
-      
-      this.olMap.on('singleclick', (event) => {        
-        if (this.olMap.hasFeatureAtPixel(event.pixel) === true) {
-          var coordinate = event.coordinate;
-          document.getElementById('content').innerHTML = '<b>Charlies house</b>'
-          this.popup.setPosition(coordinate);                    
+
+      this.olMap.on("click", (event) => {
+        var feature = this.olMap.forEachFeatureAtPixel(event.pixel, (feature) => {
+          //feature.setStyle(this.style);
+          return feature;
+        });
+
+        if(feature) {
+          var geometry = feature.getGeometry();
+          var coordindates = geometry.getCoordinates();
+          
+          var content = "<h3>" + feature.get("name") + "</h3>";
+          //content += "<h5>" + feature.get("description") + "</h5>";
+          document.getElementById("content").innerHTML = content;
+          this.popup.setPosition(coordindates);
         } else {
           this.popup.setPosition(undefined);
         }
       });
     },
 
-    watch: {
+    /*watch: {
       geojson(value) {
         this.updateSource(value);
       },
@@ -101,7 +139,7 @@ export default {
         const source = this.vectorLayer.getSource();
 
         const features = new GeoJSON({
-          featureProjection: 'EPSG:3857',
+          featureProjection: "EPSG:3857",
         }).readFeatures(geojson);
 
         source.clear();
@@ -109,7 +147,7 @@ export default {
 
         view.fit(source.getExtent())
       }
-    }
+    }*/
 }
 </script>
 

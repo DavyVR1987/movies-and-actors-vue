@@ -1,0 +1,45 @@
+{     
+    "type": "FeatureCollection",
+    "name": "Top Gun locations",
+    "crs": { 
+        "type": "name", 
+        "properties": { 
+            "name": "EPSG:3857" 
+        } 
+    },
+    "features": [
+        { 
+            "type": "Feature", 
+            "properties": { 
+                "name": "Charlie's house", 
+                "description": "102 Pacific Street, Oceanside, California, USA" 
+            }, 
+            "geometry": { 
+                "type": "Point", 
+                "coordinates": [33.193211, -117.382195]
+            }
+        },
+        { 
+            "type": "Feature", 
+            "properties": { 
+                "name": "Kansas City Barbeque", 
+                "description": "610 W. Market Street, San Diego, California, USA" 
+            }, 
+            "geometry": { 
+                "type": "Point", 
+                "coordinates": [32.711678, -117.168671]
+            }
+        },
+        { 
+            "type": "Feature", 
+            "properties": { 
+                "name": "Air station", 
+                "description": "Naval Air Station Fallon, Nevada, USA"
+            }, 
+            "geometry": { 
+                "type": "Point", 
+                "coordinates": [39.423569, -118.722656]
+            }
+        }
+    ]
+}
